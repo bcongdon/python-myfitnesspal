@@ -209,6 +209,8 @@ class Client(MFPBase):
         return measure(**{kwarg: value})
 
     def _get_numeric(self, string, flt=False):
+        if not string.strip():
+            return 0
         if flt:
             return float(re.sub(r'[^\d.]+', '', string))
         else:
