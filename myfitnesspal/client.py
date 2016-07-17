@@ -284,7 +284,14 @@ class Client(MFPBase):
                     except IndexError:
                         # This is the 'delete' button
                         continue
-                    value = self._get_numeric(column.text)
+                    # Macronutrients have to 'span' elements. One to hold the
+                    # value, and a second one for macronutrient percentages per
+                    # food. If such a span exists, use the value of the first
+                    # one as the value.
+                    if column.findall('span'):
+                        value = self._get_numeric(column.find("span").text)
+                    else:
+                        value = self._get_numeric(column.text)
                     nutrition[nutr_name] = self._get_measurement(
                         nutr_name,
                         value
